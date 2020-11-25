@@ -8,6 +8,7 @@ function Navbar(props){
     const handleLogout = () => {
         localStorage.removeItem('user')
         localStorage.removeItem('token')
+        localStorage.removeItem('user_id')
         props.setLoggedIn(false)
     }
     return (

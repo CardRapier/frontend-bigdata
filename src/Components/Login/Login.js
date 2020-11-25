@@ -19,6 +19,7 @@ function Login(props) {
       })
       .then(res => {
         localStorage.setItem('user',res.data.user.username)
+        localStorage.setItem('user_id',res.data.user.id)
         localStorage.setItem('token',res.data.token)
         props.setLoggedIn(true)
       })

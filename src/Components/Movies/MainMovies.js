@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-    Link
-  } from "react-router-dom";
 
-function MainSongs(){
+function MainMovies(){
 
-    const [popularSongs,setPopularSongs] = useState([])
-    const [likedSongs,setLikedSongs] = useState([])
-    const [favoriteSongs,setFavoriteSongs] = useState([])
+    const [popularMovies,setPopularMovies] = useState([])
+    const [likedMovies,setLikedMovies] = useState([])
+    const [favoriteMovies,setFavoriteMovies] = useState([])
 
     useEffect(() => {
         const songsAux = [
@@ -48,37 +45,38 @@ function MainSongs(){
                 "song_title":"Piece of shit"
             }
         ]
-        getFavoriteSongs()
-        getPopularSongs()
-        getLikedSongs()
+        getFavoriteMovies()
+        getPopularMovies()
+        getLikedMovies()
+        setFavoriteMovies(songsAux)
+        setPopularMovies(songsAux)
+        setLikedMovies(songsAux)
     },[]);
 
-    const getFavoriteSongs = () => {
-        axios.post(process.env.REACT_APP_API_URL + '/recommendation/songs/',{
-            id: localStorage.getItem('id_user')
-        })
+    const getFavoriteMovies = () => {
+        axios.get(process.env.REACT_APP_API_URL + '/recomendation/movies/')
         .then(res => {
-            setFavoriteSongs(res.data)
+            setFavoriteMovies(res.data.movies)
         })
         .catch(err => {
             console.log(err)
         })
     }
 
-    const getPopularSongs = () => {
-        axios.get(process.env.REACT_APP_API_URL + '/recommendation/songs/populars/')
+    const getPopularMovies = () => {
+        axios.get(process.env.REACT_APP_API_URL + '/recomendation/movies/popular/')
         .then(res => {
-            setPopularSongs(res.data)
+            setPopularMovies(res.data.movies)
         })
         .catch(err => {
             console.log(err)
         })
     }
 
-    const getLikedSongs = () => {
-        axios.get(process.env.REACT_APP_API_URL + '/recommendation/songs/most-liked/')
+    const getLikedMovies = () => {
+        axios.get(process.env.REACT_APP_API_URL + '/recomendation/movies/most-liked/')
         .then(res => {
-            setLikedSongs(res.data)
+            setLikedMovies(res.data.movies)
         })
         .catch(err => {
             console.log(err)
@@ -93,66 +91,56 @@ function MainSongs(){
                 <h1>Recommended for you</h1>
             </div>
             <div className="row mt-3">
-            {favoriteSongs !== undefined ?
-                favoriteSongs.map((song) => { return (
+                {favoriteMovies.map((song) => { return (
                     <div key={song.song_id} className="col-md-3 mt-3">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">{song.song_title}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">{song.song_artist}</h6>
-                                <Link to={"/songs/"+song.song_id}>Details</Link>
                             </div>
                         </div>
                     </div>
                 );
-                })
-                : ''
-            }
+                })}
             </div>
 
             <div className="row mt-3">
-                <h1>Most liked songs</h1>
+                <h1>Most liked movies</h1>
             </div>
             <div className="row mt-3">
-            {likedSongs !== undefined ?
-                likedSongs.map((song) => { return (
+                {likedMovies.map((song) => { return (
                     <div key={song.song_id} className="col-md-3 mt-3">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">{song.song_title}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">{song.song_artist}</h6>
-                                <Link to={"/songs/"+song.song_id}>Details</Link>
+                                <p>Details</p>
                             </div>
                         </div>
                     </div>
                 );
-                })
-            : ''
-            }
+                })}
             </div>
 
             <div className="row mt-3">
-                <h1>Popular songs</h1>
+                <h1>Popular movies</h1>
             </div>
             <div className="row mt-3">
-            {popularSongs !== undefined ?
-                popularSongs.map((song) => { return (
+                {popularMovies.map((song) => { return (
                     <div key={song.song_id} className="col-md-3 mt-3">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">{song.song_title}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">{song.song_artist}</h6>
-                                <Link to={"/songs/"+song.song_id}>Details</Link>
+                                <p>Details</p>
                             </div>
                         </div>
                     </div>
                 );
-                })
-                : ''
-            }
+                })}
             </div>
         </div>
     );
 }
 
-export default MainSongs;
+export default MainMovies;
