@@ -6,6 +6,7 @@ import MainSongs from './Components/Songs/MainSongs'
 import SongDetail from './Components/Songs/SongDetail'
 
 import MainBooks from './Components/Books/MainBooks'
+import BooksDetail from './Components/Books/BookDetail'
 import MainMovies from './Components/Movies/MainMovies'
 
 
@@ -35,6 +36,9 @@ function App() {
             </Route>
             <Route exact path="/books">
                 <MainBooks />
+            </Route>
+            <Route exact path="/books/:id">
+                <BooksDetail />
             </Route>
             <Route exact path="/movies">
                 <MainMovies />
